@@ -1,5 +1,5 @@
 /* Copyright (C) 2014 Jørgen P. Tjernø <jorgenpt@gmail.com>
- * Licensed under the MIT license, which can be found in the LICENSE file.
+ * MiniSDLCPP is licensed under the zlib license, which can be found in the LICENSE file.
  */
 
 #pragma once
