@@ -29,13 +29,14 @@ public:
     {
         SDL_Event event;
         int numEvents = 0;
-        while (SDL_PollEvent(&event) && numEvents < MAX_FRAME_EVENTS)
+        while (numEvents < MAX_FRAME_EVENTS && SDL_PollEvent(&event))
         {
             numEvents++;
             switch (event.type)
             {
                 case SDL_QUIT:
                     mRunning = false;
+                    break;
             }
         }
     }
