@@ -146,7 +146,7 @@ namespace jpt
     Type AtomicAccess<Type>::get()
     {
         Type value;
-        do { value = mValue; } while (!atomicCas(&mValue, value, value));
+        do { value = mValue; } while (!atomicCAS(&mValue, value, value));
         return value;
     }
 }
