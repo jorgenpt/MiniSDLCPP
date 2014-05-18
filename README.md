@@ -56,17 +56,16 @@ semantics.
 
 The API is simple:
 
- * `reset(handle)` takes over the given handle, cleaning up any previous
-   handle attached to this object.
- * `get()` returns the handle.
- * `detach()` returns the handle, and tells the object to not clean up
-   the handle when the object is destroyed.
+ * `obj.reset(handle)` takes over the given handle, cleaning up any
+   previous handle attached to this object.
+ * `obj.get()` returns the handle.
+ * `obj.detach()` returns the handle, and tells the object to not clean
+   up the handle when the object is destroyed.
 
 The API is self-contained:
 
- * Two .hpp files, that you can optionally concatenate together.
- * Everything lives in `#define`s prefixed with `JPT_` or in a namespace
-   named `jpt`.
+ * Two .hpp files that you can optionally concatenate together.
+ * Everything lives in the `jpt` namespace or has a `JPT_` prefix.
  * It builds with any modern C++ (preferably C++11) compiler, no weird
    build options or external dependencies (but you supply the SDL.)
 
