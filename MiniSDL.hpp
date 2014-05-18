@@ -30,8 +30,8 @@ namespace jpt
 
         typedef ManagedCHandle<SDL_AudioDeviceID, &SDL_CloseAudioDevice> ManagedAudioDevice;
 
-        /* I've omitted the following due to ManagedCStruct not being inherently
-         * threadsafe, so using it with threading primitives seems unwise:
+        /* I've omitted the following because wrapping threading primitives
+         * seems unwise:
          *
          *  typedef ManagedCHandle<SDL_mutex*, &SDL_DestroyMutex> ManagedMutex;
          *  typedef ManagedCHandle<SDL_sem*, &SDL_DestroySemaphore> ManagedSemaphore;
