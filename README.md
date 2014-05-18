@@ -16,21 +16,22 @@ Then look up the wrapper you need in [MiniSDL.hpp](MiniSDL.hpp).
 
 ## Motivation
 
-[Many][other1] [other][other2] [projects][other3] have created
-[wrappers][other4] for SDL in C++, and I've never used any of them, even
-though I've ported large C++ game engines of commercial studios to SDL.
-Most C++ wrappers attempt to wrap the entire API of SDL, which means
-they almost always end up with one or more of these problems:
+Many other projects (e.g. [SDLPP][sdlpp], [RAGE::SDL][ragesdl],
+[SDLmm][sdlmm], [sdlxx][sdlxx]) provide C++ wrappers for SDL, and I've
+never used any of them even though I've ported large C++ game engines of
+commercial studios to SDL. Most wrappers attempt to wrap the entire API
+of SDL, which means they almost always end up with one or more of these
+problems:
 
- * Not having complete or up-to-date API coverge.
+ * Not having complete or up-to-date API coverage.
  * Not having good documentation.
  * Requiring re-learning the SDL API if you've used the C API before.
  * Adding another chunky dependency on top of SDL.
  * Complicating debugging by adding more layers between you and the API.
  * Introducing bugs by adding more complexity.
 
-SDL is used by [a large number of commercial games][games], and has a
-thriving community of contributors. Odds are that your C++ wrapper of
+SDL is used by [a large number of commercial games][sdl-games], and has
+a thriving community of contributors. Odds are that your C++ wrapper of
 the day can't say the same.
 
 In my opinion, SDL's API is straight forward and does not need to be
@@ -69,8 +70,8 @@ The API is self-contained:
  * It builds with any modern C++ (preferably C++11) compiler, no weird
    build options or external dependencies (but you supply the SDL.)
 
-[other1]: http://sdlpp.sourceforge.net/
-[other2]: http://sdlmm.sourceforge.net/
-[other3]: http://home.gna.org/aml/sdl/
-[other4]: https://code.google.com/p/sdlxx/
-[games]: http://libsdl.org/index.php
+[sdlpp]: http://sdlpp.sourceforge.net/
+[sdlmm]: http://sdlmm.sourceforge.net/
+[ragesdl]: http://home.gna.org/aml/sdl/
+[sdlxx]: https://code.google.com/p/sdlxx/
+[sdl-games]: http://libsdl.org/index.php
