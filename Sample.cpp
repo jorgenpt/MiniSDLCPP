@@ -13,12 +13,11 @@ public:
         SDL_GL_SetAttribute(SDL_GL_CONTEXT_MINOR_VERSION, 2);
 
         mWindow.reset(SDL_CreateWindow("MinSDLCPP", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, 800, 600, SDL_WINDOW_OPENGL));
-        mRunning = (mWindow.get() != nullptr);
-        if (running())
+        if (mWindow)
         {
             mContext.reset(SDL_GL_CreateContext(mWindow.get()));
-            mRunning = (mContext.get() != nullptr);
         }
+        mRunning = (mContext.get() != nullptr);
 
         return mRunning;
     }
