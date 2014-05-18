@@ -1,6 +1,6 @@
 # Mini SDL C++
 
-A minimalist library for cleaner SDL in C++.
+A set of typedefs for cleaner SDL in C++.
 
 ## Getting started
 
