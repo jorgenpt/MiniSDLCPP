@@ -4,7 +4,7 @@ A minimalist library for cleaner SDL in C++.
 
 ## Getting started
 
-Copy the two `.hpp` files into your project, then slap the following two lines
+Copy `MiniSDL.hpp` into your project, then slap the following two lines
 into your relevant source file:
 
 ```cpp
@@ -13,6 +13,7 @@ using namespace jpt;
 ```
 
 Then look up the wrapper you need in [MiniSDL.hpp](MiniSDL.hpp).
+
 
 ## Motivation
 
@@ -38,39 +39,37 @@ In my opinion, SDL's API is straight forward and does not need to be
 C++ified. The one frustration with using SDL when writing C++ is that
 you need to manually manage object lifecycles and can't use nice
 C++-isms like having a SDL object that is destroyed when your stack
-frame ends or embedding them in a `std::unique_ptr`.
+frame ends.
 
 
 ## Solution
 
 Enter MiniSDLCPP!
 
-All MiniSDLCPP does is manage the lifecycle of your objects. With a
-[simple wrapper](ManagedCHandle.hpp) that knows how to clean up a C
-handle (like a pointer) and a [set of typedefs](MiniSDL.hpp) to
-configure ManagedCHandle for all relevant SDL types, we have everything
-we need.
+All MiniSDLCPP does is manage the lifecycle of your objects. It has a simple C++
+template (`CDeleter`) that calls a given C function on the argument, that is used as a
+`std::unique_ptr` Deleter. It then has a series of typedefs (because it's a bit
+messy) that you use to create `std::unique_ptr`s with the right arguments to
+manage SDL objects.
 
-`ManagedCHandle` is even better with C++11, where it supports move
-semantics.
-
-The API is simple:
+[The API][unique_ptr] is simple:
 
  * `obj.reset(handle)` takes over the given handle, cleaning up any
    previous handle attached to this object.
  * `obj.get()` returns the handle.
- * `obj.detach()` returns the handle, and tells the object to not clean
+ * `obj.release()` returns the handle, and tells the object to not clean
    up the handle when the object is destroyed.
 
-The API is self-contained:
+The code is self-contained:
 
- * Two .hpp files that you can optionally concatenate together.
- * Everything lives in the `jpt` namespace or has a `JPT_` prefix.
- * It builds with any modern C++ (preferably C++11) compiler, no weird
-   build options or external dependencies (but you supply the SDL.)
+ * One .hpp file
+ * Everything lives in the `jpt` namespace.
+ * It builds with any modern C++11 compiler, no weird build options or external
+   dependencies (but you supply the SDL.)
 
 [sdlpp]: http://sdlpp.sourceforge.net/
 [sdlmm]: http://sdlmm.sourceforge.net/
 [ragesdl]: http://home.gna.org/aml/sdl/
 [sdlxx]: https://code.google.com/p/sdlxx/
 [sdl-games]: http://libsdl.org/index.php
+[unique_ptr]: http://en.cppreference.com/w/cpp/memory/unique_ptr

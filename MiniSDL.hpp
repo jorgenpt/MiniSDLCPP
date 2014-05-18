@@ -5,37 +5,52 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-
-#include "ManagedCHandle.hpp"
+#include <memory>
 
 namespace jpt
 {
     namespace SDL
     {
-        typedef ManagedCHandle<SDL_Cursor*, &SDL_FreeCursor> ManagedCursor;
-        typedef ManagedCHandle<SDL_GLContext, &SDL_GL_DeleteContext> ManagedGLContext;
-        typedef ManagedCHandle<SDL_Window*, &SDL_DestroyWindow> ManagedWindow;
+        template <typename Type, void (*Deleter)(Type)>
+        struct CDeleter
+        {
+            void operator() (Type arg) { Deleter(arg); }
+        };
 
-        typedef ManagedCHandle<SDL_Texture*, &SDL_DestroyTexture> ManagedTexture;
-        typedef ManagedCHandle<SDL_PixelFormat*, &SDL_FreeFormat> ManagedPixelFormat;
-        typedef ManagedCHandle<SDL_Palette*, &SDL_FreePalette> ManagedPalette;
-        typedef ManagedCHandle<SDL_Surface*, &SDL_FreeSurface> ManagedSurface;
-        typedef ManagedCHandle<SDL_Renderer*, &SDL_DestroyRenderer> ManagedRenderer;
+        typedef CDeleter<SDL_Cursor*, &SDL_FreeCursor> ManagedCursorDeleter;
+        typedef std::unique_ptr<SDL_Cursor, ManagedCursorDeleter> ManagedCursor;
+        typedef CDeleter<SDL_GLContext, &SDL_GL_DeleteContext> ManagedGLContextDeleter;
+        typedef std::unique_ptr<void, ManagedGLContextDeleter> ManagedGLContext;
+        typedef CDeleter<SDL_Window*, &SDL_DestroyWindow> ManagedWindowDeleter;
+        typedef std::unique_ptr<SDL_Window, ManagedWindowDeleter> ManagedWindow;
 
-        typedef ManagedCHandle<SDL_RWops*, &SDL_FreeRW> ManagedRWops;
+        typedef CDeleter<SDL_Texture*, &SDL_DestroyTexture> ManagedTextureDeleter;
+        typedef std::unique_ptr<SDL_Texture, ManagedTextureDeleter> ManagedTexture;
+        typedef CDeleter<SDL_PixelFormat*, &SDL_FreeFormat> ManagedPixelFormatDeleter;
+        typedef std::unique_ptr<SDL_PixelFormat, ManagedPixelFormatDeleter> ManagedPixelFormat;
+        typedef CDeleter<SDL_Palette*, &SDL_FreePalette> ManagedPaletteDeleter;
+        typedef std::unique_ptr<SDL_Palette, ManagedPaletteDeleter> ManagedPalette;
+        typedef CDeleter<SDL_Surface*, &SDL_FreeSurface> ManagedSurfaceDeleter;
+        typedef std::unique_ptr<SDL_Surface, ManagedSurfaceDeleter> ManagedSurface;
+        typedef CDeleter<SDL_Renderer*, &SDL_DestroyRenderer> ManagedRendererDeleter;
+        typedef std::unique_ptr<SDL_Renderer, ManagedRendererDeleter> ManagedRenderer;
 
-        typedef ManagedCHandle<SDL_Joystick*, &SDL_JoystickClose> ManagedJoystick;
-        typedef ManagedCHandle<SDL_Haptic*, &SDL_HapticClose> ManagedHaptic;
-        typedef ManagedCHandle<SDL_GameController*, &SDL_GameControllerClose> ManagedGameController;
+        typedef CDeleter<SDL_RWops*, &SDL_FreeRW> ManagedRWopsDeleter;
+        typedef std::unique_ptr<SDL_RWops, ManagedRWopsDeleter> ManagedRWops;
 
-        typedef ManagedCHandle<SDL_AudioDeviceID, &SDL_CloseAudioDevice> ManagedAudioDevice;
+        typedef CDeleter<SDL_Joystick*, &SDL_JoystickClose> ManagedJoystickDeleter;
+        typedef std::unique_ptr<SDL_Joystick, ManagedJoystickDeleter> ManagedJoystick;
+        typedef CDeleter<SDL_Haptic*, &SDL_HapticClose> ManagedHapticDeleter;
+        typedef std::unique_ptr<SDL_Haptic, ManagedHapticDeleter> ManagedHaptic;
+        typedef CDeleter<SDL_GameController*, &SDL_GameControllerClose> ManagedGameControllerDeleter;
+        typedef std::unique_ptr<SDL_GameController, ManagedGameControllerDeleter> ManagedGameController;
 
-        /* I've omitted the following because wrapping threading primitives
-         * seems unwise:
+
+        /* I've omitted wrapping SDL_mutex, SDL_sem and SDL_cond because
+         * wrapping threading primitives seems unwise.
          *
-         *  typedef ManagedCHandle<SDL_mutex*, &SDL_DestroyMutex> ManagedMutex;
-         *  typedef ManagedCHandle<SDL_sem*, &SDL_DestroySemaphore> ManagedSemaphore;
-         *  typedef ManagedCHandle<SDL_cond*, &SDL_DestroyCond> ManagedCond;
+         * TODO: SDL_AudioDeviceID - it's not a pointer, so it needs a little
+         *       bit of jiggering.
          */
     }
 }
